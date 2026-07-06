@@ -1,0 +1,35 @@
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs y temporales
+*.log
+*.tmp
+*.temp
+
+# Secretos (este proyecto no usa APIs, pero por seguridad)
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+secrets.*
+
+# Dependencias (si en el futuro se añade build)
+node_modules/
+dist/
+build/
+
+# Audio de prueba local (no subir grabaciones personales)
+*.wav
+*.mp3
+*.ogg
+*.webm
+!docs/**/*.wav
