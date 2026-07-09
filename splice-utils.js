@@ -1,5 +1,5 @@
 /**
- * VoiceForge AI — splice-utils.js
+ * VoiceForge — splice-utils.js
  * Zero-crossing, crossfades y Smart Silence Truncation
  */
 
@@ -39,6 +39,64 @@ export function findZeroCrossing(channelData, startIndex, searchWindow) {
     }
 
     return bestIndex;
+}
+
+export function extractBufferRange(ctx, buffer, startSec, endSec) {
+    const sr = buffer.sampleRate;
+    const data = buffer.getChannelData(0);
+    const s0 = Math.max(0, Math.floor(startSec * sr));
+    const s1 = Math.min(data.length, Math.ceil(endSec * sr));
+    const len = Math.max(1, s1 - s0);
+    const out = ctx.createBuffer(1, len, sr);
+    out.getChannelData(0).set(data.subarray(s0, s0 + len));
+    return out;
+}
+
+/** Reemplaza [startSec, endSec) con processedBuffer, con crossfade en los bordes. */
+export function spliceProcessedRange(ctx, sourceBuffer, startSec, endSec, processedBuffer) {
+    const sr = sourceBuffer.sampleRate;
+    const data = sourceBuffer.getChannelData(0);
+    const s0 = Math.max(0, Math.floor(startSec * sr));
+    const s1 = Math.min(data.length, Math.ceil(endSec * sr));
+    if (s1 <= s0) return sourceBuffer;
+
+    const before = data.slice(0, s0);
+    const after = data.slice(s1);
+    const mid = processedBuffer.getChannelData(0);
+    const fade = Math.min(crossfadeSamples(sr, 5), before.length, mid.length, after.length);
+
+    const overlap =
+        (fade > 1 && before.length && mid.length ? fade : 0) +
+        (fade > 1 && mid.length && after.length ? fade : 0);
+    const total = before.length + mid.length + after.length - overlap;
+    const out = ctx.createBuffer(1, Math.max(1, total), sr);
+    const dest = out.getChannelData(0);
+    let w = 0;
+
+    if (before.length) {
+        const trim = fade > 1 && mid.length ? fade : 0;
+        const keep = before.length - trim;
+        if (keep > 0) {
+            dest.set(before.subarray(0, keep), 0);
+            w = keep;
+        }
+    }
+
+    if (before.length && mid.length && fade > 1) {
+        w += applyCrossfadeToJoin(dest, w, before.subarray(before.length - fade), mid, fade);
+    } else if (mid.length) {
+        dest.set(mid, w);
+        w += mid.length;
+    }
+
+    if (after.length && mid.length && fade > 1) {
+        w -= fade;
+        w += applyCrossfadeToJoin(dest, w, mid.subarray(mid.length - fade), after, fade);
+    } else if (after.length) {
+        dest.set(after, w);
+    }
+
+    return out;
 }
 
 export function applyCrossfadeToJoin(output, writePos, tailA, headB, fadeSamples) {
