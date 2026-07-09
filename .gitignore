@@ -33,3 +33,8 @@ build/
 *.ogg
 *.webm
 !docs/**/*.wav
+
+# Instrucciones internas del agente (no publicar)
+gemini.md
+plan_maestro.md
+lecciones_aprendidas.md

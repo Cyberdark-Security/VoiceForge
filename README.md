@@ -120,7 +120,6 @@ El modo **dual-mono** pone la misma señal en L y R para que ningún editor de v
 
 ```
 VoiceForge/
-├── gemini.md / plan_maestro.md / lecciones_aprendidas.md  # Tridente de Memoria
 ├── index.html / index.css     # UI DAW v2
 ├── app.js                     # Orquestador
 ├── audio-engine.js            # AudioContext, playback, grabación, MASTER
