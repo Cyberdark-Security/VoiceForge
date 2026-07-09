@@ -8,207 +8,252 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎙️</text></svg>">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Panel Superior: Info y Branding -->
-        <header class="app-header">
+    <div class="app-shell">
+        <!-- Header -->
+        <header class="top-bar">
             <div class="brand">
-                <span class="logo-icon">🎙️</span>
-                <h1>VoiceForge <span class="accent-text">// Audio Labs</span></h1>
+                <svg class="brand-logo" viewBox="0 0 32 32" aria-hidden="true">
+                    <path d="M4 16 Q8 4 16 8 T28 16 T16 24 T4 16" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="16" cy="16" r="2" fill="currentColor"/>
+                </svg>
+                <h1>VoiceForge <span class="brand-sub">// Audio Labs</span></h1>
             </div>
-            <div class="system-status">
-                <div class="status-indicator">
-                    <span class="status-dot green"></span>
-                    <span id="status-text">Listo</span>
-                </div>
-                <div class="format-badge">48 kHz · Edición mono · Export video: estéreo</div>
+            <div class="top-actions">
+                <a href="https://github.com/Cyberdark-Security/VoiceForge" target="_blank" rel="noopener" class="icon-btn" title="GitHub">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0022 12.021C22 6.484 17.523 2 12 2z"/></svg>
+                </a>
+                <a href="README.md" target="_blank" class="icon-btn" title="Documentación">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+                </a>
+                <button id="btn-settings" class="icon-btn" title="Ajustes avanzados">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                </button>
             </div>
         </header>
 
-        <!-- Contenedor Principal: Workspace -->
-        <main class="app-main">
-            <!-- Columna Izquierda: Visualización de Onda -->
-            <section class="editor-section">
-                <!-- Zona Drag and Drop -->
+        <div class="workspace">
+            <!-- Sidebar -->
+            <nav class="side-nav" aria-label="Navegación principal">
+                <button class="nav-btn active" data-view="editor" title="Editor de onda">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+                </button>
+                <button class="nav-btn" data-view="import" title="Importar audio">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                </button>
+                <button class="nav-btn" data-view="eq" title="Presets EQ">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/></svg>
+                </button>
+                <button class="nav-btn" data-view="processing" title="Procesamiento">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12c2-4 6-6 10-6s8 2 10 6c-2 4-6 6-10 6s-8-2-10-6z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+                <button class="nav-btn" data-view="spatial" title="Espacial (próximamente)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+                </button>
+            </nav>
+
+            <!-- Editor central -->
+            <section class="editor-panel">
                 <div id="drop-zone" class="drop-zone">
-                    <div class="drop-zone-content">
-                        <span class="drop-icon">📥</span>
-                        <p>Arrastra tu audio aquí o <label for="file-input" class="file-label">búscalo en tu equipo</label></p>
+                    <div class="drop-zone-inner">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="drop-icon"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <p>Arrastra audio aquí o <label for="file-input" class="file-link">selecciona un archivo</label></p>
                         <input type="file" id="file-input" accept="audio/*" hidden>
                     </div>
                 </div>
 
-                <!-- Contenedor del Visualizador -->
-                <div class="waveform-container">
-                    <!-- Regla de Tiempo -->
+                <div class="waveform-stack">
                     <div class="timeline-ruler" id="timeline-ruler">
                         <canvas id="ruler-canvas"></canvas>
                     </div>
-                    
-                    <!-- Canvas de Onda -->
                     <div class="waveform-viewport" id="waveform-viewport">
                         <canvas id="waveform-canvas"></canvas>
                     </div>
-
-                    <!-- Cursor de reproducción dinámico -->
-                    <div class="playback-cursor" id="playback-cursor"></div>
-                </div>
-
-                <!-- Barra de Zoom y Selección -->
-                <div class="visual-controls">
-                    <div class="selection-info">
-                        <span>Selección: </span>
-                        <span id="selection-range" class="mono-font">0.000s - 0.000s (0.000s)</span>
-                        <span class="selection-hint">Arrastra en la onda · Supr corta · Ctrl+M silencia</span>
-                    </div>
-                    <div class="zoom-controls">
-                        <button id="btn-zoom-out" class="icon-btn" title="Alejar (Zoom Out)">➖</button>
-                        <input type="range" id="zoom-slider" min="1" max="100" value="10" title="Control de Zoom">
-                        <button id="btn-zoom-in" class="icon-btn" title="Acercar (Zoom In)">➕</button>
+                    <div class="overview-strip" id="overview-strip">
+                        <canvas id="overview-canvas"></canvas>
                     </div>
                 </div>
 
-                <!-- Medidor de Nivel dBFS/RMS -->
-                <div class="level-meter-container">
-                    <div class="meter-labels">
-                        <span>-60</span><span>-45</span><span>-30</span><span>-20</span><span>-12</span><span>-6</span><span>-3</span><span>0 dB</span>
-                    </div>
-                    <div class="meter-bar-wrapper">
-                        <div id="meter-fill" class="meter-fill"></div>
-                        <div id="meter-peak" class="meter-peak"></div>
-                    </div>
-                    <div class="meter-values">
-                        <span>Peak: <span id="peak-db" class="mono-font">-inf</span> dBFS</span>
-                        <span>RMS: <span id="rms-db" class="mono-font">-inf</span> dB</span>
-                    </div>
+                <div class="editor-status">
+                    <span id="status-text" class="status-label">Listo</span>
+                    <span id="selection-range" class="mono selection-info">Sin selección</span>
                 </div>
             </section>
 
-            <!-- Columna Derecha: Efectos, Filtros e Historial -->
-            <aside class="sidebar-section">
-                <!-- Panel de Filtros -->
-                <div class="panel glass">
-                    <h2>🎚️ Filtros & Efectos</h2>
-                    
-                    <div class="panel-content">
-                        <!-- Presets de EQ -->
-                        <div class="form-group">
-                            <label>Presets de Ecualización Vocal</label>
-                            <div class="presets-grid">
-                                <button id="preset-flat" class="preset-btn active" data-preset="flat">Plano</button>
-                                <button id="preset-podcast" class="preset-btn" data-preset="podcast">🎙️ Podcast</button>
-                                <button id="preset-radio" class="preset-btn" data-preset="radio">📻 Radio AM/FM</button>
-                            </div>
+            <!-- Panel derecho -->
+            <aside class="right-panel">
+                <div class="panel-block" id="panel-master">
+                    <h2 class="panel-title">MASTER</h2>
+                    <div class="master-output">
+                        <div class="knob-wrap">
+                            <label for="master-gain" class="knob-label">Output</label>
+                            <input type="range" id="master-gain" class="knob-input" min="-24" max="6" value="-6" step="0.5">
+                            <span id="master-gain-val" class="knob-value mono">-6.0 dB</span>
                         </div>
-
-                        <!-- Noise Gate -->
-                        <div class="form-group border-top">
-                            <div class="group-header">
-                                <label for="gate-toggle" class="checkbox-label">
-                                    <input type="checkbox" id="gate-toggle">
-                                    <span>Puerta de Ruido (Noise Gate)</span>
-                                </label>
-                            </div>
-                            <div class="gate-controls disabled-overlay" id="gate-params">
-                                <div class="slider-control">
-                                    <div class="slider-header">
-                                        <span>Umbral (Threshold)</span>
-                                        <span id="gate-threshold-val" class="mono-font">-45 dB</span>
-                                    </div>
-                                    <input type="range" id="gate-threshold" min="-60" max="-20" value="-45">
-                                </div>
-                                <div class="slider-control">
-                                    <div class="slider-header">
-                                        <span>Liberación (Release)</span>
-                                        <span id="gate-release-val" class="mono-font">150 ms</span>
-                                    </div>
-                                    <input type="range" id="gate-release" min="50" max="500" value="150" step="10">
+                        <div class="stereo-meters">
+                            <div class="meter-col">
+                                <span class="meter-ch">L</span>
+                                <div class="meter-vu" id="meter-l">
+                                    <div class="meter-segments"></div>
+                                    <div class="meter-level" id="meter-l-level"></div>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Truncar Silencios -->
-                        <div class="form-group border-top">
-                            <div class="group-header">
-                                <label for="silence-toggle" class="checkbox-label">
-                                    <input type="checkbox" id="silence-toggle">
-                                    <span>Eliminar Silencios Inteligente</span>
-                                </label>
+                            <div class="meter-col">
+                                <span class="meter-ch">R</span>
+                                <div class="meter-vu" id="meter-r">
+                                    <div class="meter-segments"></div>
+                                    <div class="meter-level" id="meter-r-level"></div>
+                                </div>
                             </div>
-                            <div class="silence-controls disabled-overlay" id="silence-params">
-                                <p class="control-description">Detecta y acorta silencios mayores a 400ms a un máximo de 150ms.</p>
-                            </div>
-                        </div>
-
-                        <!-- Normalización -->
-                        <div class="form-group border-top">
-                            <button id="btn-normalize" class="btn secondary btn-full">⚡ Normalizar Audio (-1 dB)</button>
-                        </div>
-
-                        <!-- Aplicar Filtros Offline -->
-                        <div class="action-wrapper border-top">
-                            <button id="btn-apply-filters" class="btn primary btn-full">Aplicar Filtros & Consolidar</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Historial y Límites -->
-                <div class="panel glass mt-4 flex-grow">
-                    <h2>📋 Historial & Operaciones</h2>
-                    <div class="panel-content history-panel">
-                        <div class="history-list" id="history-list">
-                            <div class="history-item empty">Sin operaciones de edición</div>
-                        </div>
-                        <div class="history-footer">
-                            <span class="limit-warn">Capacidad óptima: Hasta ~30 min / 50 operaciones</span>
-                        </div>
+                <div class="panel-block" id="panel-processing">
+                    <h2 class="panel-title">PROCESSING</h2>
+                    <ul class="fx-list">
+                        <li class="fx-item">
+                            <span class="fx-name">Noise Reduction</span>
+                            <span class="fx-state" aria-hidden="true">OFF</span>
+                            <button type="button" class="fx-toggle" id="fx-noise" aria-pressed="false" aria-label="Noise Reduction" title="Noise Reduction">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10"/><path d="M18.36 6.64a9 9 0 11-12.73 0"/></svg>
+                            </button>
+                        </li>
+                        <li class="fx-item">
+                            <span class="fx-name">Reverb</span>
+                            <span class="fx-state" aria-hidden="true">OFF</span>
+                            <button type="button" class="fx-toggle" id="fx-reverb" aria-pressed="false" aria-label="Reverb" title="Reverb">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10"/><path d="M18.36 6.64a9 9 0 11-12.73 0"/></svg>
+                            </button>
+                        </li>
+                        <li class="fx-item">
+                            <span class="fx-name">EQ</span>
+                            <span class="fx-state" aria-hidden="true">OFF</span>
+                            <button type="button" class="fx-toggle" id="fx-eq" aria-pressed="false" aria-label="EQ" title="EQ">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10"/><path d="M18.36 6.64a9 9 0 11-12.73 0"/></svg>
+                            </button>
+                        </li>
+                        <li class="fx-item">
+                            <span class="fx-name">Limiter</span>
+                            <span class="fx-state" aria-hidden="true">OFF</span>
+                            <button type="button" class="fx-toggle" id="fx-limiter" aria-pressed="false" aria-label="Limiter" title="Limiter">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10"/><path d="M18.36 6.64a9 9 0 11-12.73 0"/></svg>
+                            </button>
+                        </li>
+                    </ul>
+                    <button type="button" class="btn-apply-selection" id="btn-apply-selection" title="Aplicar efectos activos solo a la selección">
+                        Aplicar a selección
+                    </button>
+                </div>
+
+                <div class="panel-block panel-eq-presets hidden" id="panel-eq-presets">
+                    <h2 class="panel-title">EQ PRESETS</h2>
+                    <div class="presets-row">
+                        <button class="preset-chip active" data-preset="flat">Plano</button>
+                        <button class="preset-chip" data-preset="podcast">Podcast</button>
+                        <button class="preset-chip" data-preset="radio">Radio</button>
                     </div>
                 </div>
             </aside>
-        </main>
+        </div>
 
-        <!-- Barra de Control Flotante Inferior -->
-        <footer class="app-toolbar glass">
-            <!-- Sección de Reproducción -->
-            <div class="toolbar-group playback-group">
-                <button id="btn-record" class="toolbar-btn record-btn" title="Grabar Micrófono">🔴 Grabar</button>
-                <div class="divider"></div>
-                <button id="btn-play" class="toolbar-btn" title="Reproducir (Espacio)">▶️ Play</button>
-                <button id="btn-pause" class="toolbar-btn" title="Pausar (Espacio)">⏸️ Pausa</button>
-                <button id="btn-stop" class="toolbar-btn" title="Detener">⏹️ Stop</button>
+        <!-- Transport bar -->
+        <footer class="transport-bar">
+            <div class="transport-left">
+                <button id="btn-skip-start" class="transport-btn" title="Ir al inicio">⏮</button>
+                <button id="btn-prev" class="transport-btn" title="Retroceder 5 s">⏪</button>
+                <button id="btn-play" class="transport-btn play-btn" title="Reproducir (Espacio)">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <button id="btn-stop" class="transport-btn" title="Detener grabación / reproducción (Esc)">⏹</button>
+                <button id="btn-record" class="transport-btn record-btn" title="Iniciar / detener grabación">⏺</button>
             </div>
 
-            <!-- Información de Tiempo -->
-            <div class="time-display mono-font">
-                <span id="current-time">00:00.000</span>
-                <span class="time-divider">/</span>
-                <span id="duration-time">00:00.000</span>
+            <div class="transport-center">
+                <span id="current-time" class="mono time-current">0:00.000</span>
+                <span class="time-sep">/</span>
+                <span id="duration-time" class="mono time-total">0:00.000</span>
+                <span class="audio-specs" id="audio-specs">48000 Hz · 32-bit · Mono</span>
             </div>
 
-            <!-- Controles de Edición -->
-            <div class="toolbar-group edit-group">
-                <button id="btn-undo" class="toolbar-btn" title="Deshacer (Ctrl+Z)" disabled>↩️ Deshacer</button>
-                <button id="btn-redo" class="toolbar-btn" title="Rehacer (Ctrl+Y)" disabled>↪️ Rehacer</button>
-                <div class="divider"></div>
-                <button id="btn-cut" class="toolbar-btn" title="Cortar (Supr)" disabled>✂️ Cortar</button>
-                <button id="btn-copy" class="toolbar-btn" title="Copiar" disabled>📄 Copiar</button>
-                <button id="btn-paste" class="toolbar-btn" title="Pegar" disabled>📋 Pegar</button>
-                <button id="btn-mute" class="toolbar-btn" title="Silenciar" disabled>🔕 Silenciar</button>
-            </div>
-
-            <!-- Exportar -->
-            <div class="toolbar-group export-group">
-                <select id="export-format" class="export-select" title="Formato de exportación">
-                    <option value="stereo-video" selected>🎬 Video (estéreo dual-mono 16-bit)</option>
-                    <option value="stereo-float32">Estéreo dual-mono 32-bit</option>
-                    <option value="mono-float32">Mono 32-bit (máx. calidad)</option>
-                    <option value="mono-pcm16">Mono 16-bit PCM</option>
-                </select>
-                <button id="btn-export" class="btn success" disabled>💾 Exportar WAV</button>
+            <div class="transport-right">
+                <div class="tool-group">
+                    <button id="tool-select" class="tool-btn active" title="Selección" data-tool="select">↖</button>
+                    <button id="tool-edit" class="tool-btn" title="Edición (cortar/silenciar)" data-tool="edit">✎</button>
+                    <button id="tool-wave" class="tool-btn" title="Onda" data-tool="wave">∿</button>
+                </div>
+                <div class="zoom-group">
+                    <button id="btn-zoom-out" class="zoom-btn" title="Alejar">−</button>
+                    <button id="btn-zoom-in" class="zoom-btn" title="Acercar">+</button>
+                </div>
+                <input type="range" id="zoom-slider" class="zoom-slider hidden" min="1" max="100" value="10">
             </div>
         </footer>
     </div>
 
-    <!-- Cargar Script de la Aplicación -->
+    <!-- Modal ajustes avanzados (v1 features) -->
+    <dialog id="settings-dialog" class="settings-dialog">
+        <div class="dialog-header">
+            <h2>Ajustes avanzados</h2>
+            <button type="button" id="btn-close-settings" class="icon-btn" aria-label="Cerrar">✕</button>
+        </div>
+        <div class="dialog-body">
+            <section class="dialog-section">
+                <h3>Noise Gate (al consolidar)</h3>
+                <p class="dialog-hint">Sincronizado con el toggle Noise Reduction del panel.</p>
+                <label class="check-row">
+                    <input type="checkbox" id="gate-toggle">
+                    <span>Activar al consolidar</span>
+                </label>
+                <div id="gate-params" class="sub-controls disabled-overlay">
+                    <label>Umbral <span id="gate-threshold-val" class="mono">-45 dB</span>
+                        <input type="range" id="gate-threshold" min="-60" max="-20" value="-45">
+                    </label>
+                    <label>Release <span id="gate-release-val" class="mono">150 ms</span>
+                        <input type="range" id="gate-release" min="50" max="500" value="150" step="10">
+                    </label>
+                </div>
+            </section>
+            <section class="dialog-section">
+                <h3>Silencios inteligentes</h3>
+                <label class="check-row">
+                    <input type="checkbox" id="silence-toggle">
+                    <span>Acortar silencios al consolidar</span>
+                </label>
+            </section>
+            <section class="dialog-section">
+                <button id="btn-normalize" class="btn secondary">Normalizar (-1 dBFS)</button>
+                <button id="btn-apply-filters" class="btn primary">Aplicar a selección</button>
+            </section>
+            <section class="dialog-section">
+                <h3>Edición</h3>
+                <div class="edit-row">
+                    <button id="btn-undo" class="btn secondary" disabled>↩ Deshacer</button>
+                    <button id="btn-redo" class="btn secondary" disabled>↪ Rehacer</button>
+                    <button id="btn-cut" class="btn secondary" disabled>✂ Cortar</button>
+                    <button id="btn-copy" class="btn secondary" disabled>Copiar</button>
+                    <button id="btn-paste" class="btn secondary" disabled>Pegar</button>
+                    <button id="btn-mute" class="btn secondary" disabled>Silenciar</button>
+                </div>
+            </section>
+            <section class="dialog-section">
+                <h3>Exportar</h3>
+                <select id="export-format" class="export-select">
+                    <option value="stereo-video" selected>Video (estéreo dual-mono 16-bit)</option>
+                    <option value="stereo-float32">Estéreo dual-mono 32-bit</option>
+                    <option value="mono-float32">Mono 32-bit</option>
+                    <option value="mono-pcm16">Mono 16-bit PCM</option>
+                </select>
+                <button id="btn-export" class="btn success" disabled>Exportar WAV</button>
+            </section>
+            <section class="dialog-section">
+                <h3>Historial</h3>
+                <div class="history-list" id="history-list">
+                    <div class="history-item empty">Sin operaciones</div>
+                </div>
+            </section>
+        </div>
+    </dialog>
+
     <script type="module" src="app.js"></script>
 </body>
 </html>
