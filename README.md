@@ -29,7 +29,7 @@ Lo construí para **creadores de video**, podcasters y locutores que necesitan:
 - Aplicar **filtros vocales** (noise gate, EQ, normalización)
 - Exportar audio **compatible con editores de video** (Premiere, CapCut, DaVinci…)
 
-> Proyecto personal de [Whoami-Labs](https://github.com/whoami-labs) — libre, abierto y listo para que lo uses, lo estudies o lo mejores.
+> Proyecto personal de [Cyberdark-Security / Whoami-Labs](https://github.com/Cyberdark-Security/VoiceForge) — libre, abierto y listo para que lo uses, lo estudies o lo mejores.
 
 ---
 
@@ -41,7 +41,10 @@ Lo construí para **creadores de video**, podcasters y locutores que necesitan:
 | **Edición en vivo** | Selecciona, corta o silencia **mientras sigues grabando** |
 | **EDL no destructiva** | Historial de hasta 50 operaciones sin clonar buffers enteros |
 | **Anti-clics** | Zero-crossing + crossfade 15 ms + ramps en play/pause |
-| **Waveform interactiva** | Zoom, selección, ventana fija 30 s al grabar, canvas HiDPI |
+| **Waveform interactiva** | Zoom, overview strip, playhead ms, ventana 30 s al grabar |
+| **Panel MASTER** | Dial de salida en dB + medidores estéreo L/R |
+| **PROCESSING** | Noise Reduction, Reverb, EQ, Limiter (live + offline) |
+| **UI DAW v2** | Sidebar, transporte inferior, tema oscuro profesional |
 | **Filtros vocales** | Presets Podcast / Radio, noise gate, smart silence |
 | **Export para video** | Estéreo dual-mono 16-bit por defecto (L=R, sin audio en un solo canal) |
 | **Privacidad total** | Cero dependencias de servidor — solo archivos estáticos |
@@ -91,7 +94,8 @@ Abre **http://localhost:8765** en Chrome o Edge.
 
 | Tecla | Acción |
 |-------|--------|
-| `Espacio` | Play / Pausa |
+| `Espacio` | Play / Stop (como AudioMass) — si grabas: detiene y reproduce |
+| `Shift + Espacio` | Pausa / reanudar reproducción |
 | `Ctrl + Z` | Deshacer |
 | `Ctrl + Y` | Rehacer |
 | `Supr` / `Backspace` | Cortar selección |
@@ -116,14 +120,15 @@ El modo **dual-mono** pone la misma señal en L y R para que ningún editor de v
 
 ```
 VoiceForge/
-├── index.html / index.css     # UI glassmorphism (Whoami-Labs)
+├── gemini.md / plan_maestro.md / lecciones_aprendidas.md  # Tridente de Memoria
+├── index.html / index.css     # UI DAW v2
 ├── app.js                     # Orquestador
-├── audio-engine.js            # AudioContext, playback, grabación
-├── audio-recorder-processor.js# AudioWorklet PCM
+├── audio-engine.js            # AudioContext, playback, grabación, MASTER
+├── audio-recorder-processor.js# AudioWorklet PCM (fallback: MediaRecorder)
 ├── edit-stack.js              # EDL + undo/redo
 ├── splice-utils.js            # Zero-cross, crossfade, smart silence
-├── waveform.js                # Canvas HiDPI + picos en vivo
-├── audio-filters.js           # EQ presets + noise gate
+├── waveform.js                # Canvas + overview + playhead pill
+├── audio-filters.js           # EQ, gate, reverb, limiter
 ├── audio-worker.js            # DSP en Web Worker
 ├── wav-exporter.js            # WAV + dither TPDF
 ├── scripts/                   # Launchers Windows
@@ -145,7 +150,7 @@ flowchart LR
 
 ### Cómo eliminamos los clics
 
-1. **Grabación**: PCM directo vía AudioWorklet (sin compresión MediaRecorder en el camino principal).
+1. **Grabación**: PCM directo vía AudioWorklet; si no está disponible, **MediaRecorder** (WebM/Opus) como fallback.
 2. **Edición**: búsqueda de zero-crossing ±15 ms + crossfade de 15 ms en cada unión.
 3. **Reproducción**: rampas de ganancia de 10–15 ms al play/pause/stop.
 
@@ -162,11 +167,12 @@ flowchart LR
 
 ## Stack tecnológico
 
-- **HTML5 + CSS3** (OKLCH, glassmorphism, CSS Grid)
+- **HTML5 + CSS3** (tema DAW oscuro, CSS Grid)
 - **JavaScript ES Modules** — sin React, sin bundler obligatorio
-- **Web Audio API** — AudioWorklet, OfflineAudioContext, BiquadFilter
-- **Canvas 2D** — waveform HiDPI con pirámide de picos
+- **Web Audio API** — AudioWorklet, OfflineAudioContext, BiquadFilter, Convolver (reverb)
+- **Canvas 2D** — waveform HiDPI + overview strip + pirámide de picos
 - **Web Workers** — noise gate y DSP sin bloquear la UI
+- **Google Fonts** (Inter, JetBrains Mono) — única dependencia de red en runtime
 
 **No se usa:** backend, base de datos, API externa, npm en runtime, claves de terceros.
 
