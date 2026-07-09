@@ -1,5 +1,5 @@
 /**
- * VoiceForge AI — edit-stack.js (EDL e historial no destructivo)
+ * VoiceForge — edit-stack.js (EDL e historial no destructivo)
  */
 
 import {

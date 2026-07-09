@@ -1,5 +1,5 @@
 /**
- * VoiceForge AI — wav-exporter.js
+ * VoiceForge — wav-exporter.js
  */
 
 export class WavExporter {
