@@ -1,5 +1,5 @@
 /**
- * VoiceForge AI — audio-worker.js
+ * VoiceForge — audio-worker.js
  */
 
 self.onmessage = function (e) {
