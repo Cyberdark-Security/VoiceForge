@@ -1,5 +1,5 @@
 /**
- * VoiceForge AI — audio-recorder-processor.js
+ * VoiceForge — audio-recorder-processor.js
  * Envía bloques pequeños (~128 muestras) para waveform en vivo fluida
  */
 
@@ -24,6 +24,7 @@ class AudioRecorderProcessor extends AudioWorkletProcessor {
             this.buffer = new Float32Array(this.postEvery);
             this.bufferIndex = 0;
         }
+        this.port.postMessage({ type: 'flushed' });
     }
 
     process(inputs) {
